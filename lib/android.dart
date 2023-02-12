@@ -6,7 +6,7 @@ import 'package:flutter_launcher_icons/custom_exceptions.dart';
 import 'package:flutter_launcher_icons/flutter_launcher_icons_config.dart';
 import 'package:flutter_launcher_icons/utils.dart';
 import 'package:flutter_launcher_icons/xml_templates.dart' as xml_template;
-import 'package:image/image.dart';
+import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as path;
 
 class AndroidIconTemplate {
@@ -42,7 +42,7 @@ void createDefaultIcons(
   if (filePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  final Image? image = decodeImageFile(filePath);
+  final img.Image? image = decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -100,7 +100,7 @@ void createAdaptiveIcons(
   if (backgroundConfig == null || foregroundImagePath == null) {
     throw const InvalidConfigException(errorMissingImagePath);
   }
-  final Image? foregroundImage = decodeImageFile(foregroundImagePath);
+  final img.Image? foregroundImage = decodeImageFile(foregroundImagePath);
   if (foregroundImage == null) {
     return;
   }
@@ -181,7 +181,7 @@ void _createAdaptiveBackgrounds(
   String? flavor,
 ) {
   final String filePath = adaptiveIconBackgroundImagePath;
-  final Image? image = decodeImageFile(filePath);
+  final img.Image? image = decodeImageFile(filePath);
   if (image == null) {
     return;
   }
@@ -262,18 +262,18 @@ void updateColorsFile(File colorsFile, String backgroundColor) {
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void overwriteExistingIcons(
   AndroidIconTemplate template,
-  Image image,
+  img.Image image,
   String filename,
   String? flavor,
 ) {
-  final Image newFile = createResizedImage(template.size, image);
+  final img.Image newFile = createResizedImage(template.size, image);
   File(
     constants.androidResFolder(flavor) +
         template.directoryName +
         '/' +
         filename,
   ).create(recursive: true).then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
+    file.writeAsBytesSync(img.encodePng(newFile));
   });
 }
 
@@ -282,18 +282,18 @@ void overwriteExistingIcons(
 /// https://github.com/fluttercommunity/flutter_launcher_icons/issues/101#issuecomment-495528733
 void _saveNewImages(
   AndroidIconTemplate template,
-  Image image,
+  img.Image image,
   String iconFilePath,
   String? flavor,
 ) {
-  final Image newFile = createResizedImage(template.size, image);
+  final img.Image newFile = createResizedImage(template.size, image);
   File(
     constants.androidResFolder(flavor) +
         template.directoryName +
         '/' +
         iconFilePath,
   ).create(recursive: true).then((File file) {
-    file.writeAsBytesSync(encodePng(newFile));
+    file.writeAsBytesSync(img.encodePng(newFile));
   });
 }
 

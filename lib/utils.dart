@@ -1,25 +1,25 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:image/image.dart';
+import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as path;
 
 import 'custom_exceptions.dart';
 
-Image createResizedImage(int iconSize, Image image) {
+img.Image createResizedImage(int iconSize, img.Image image) {
   if (image.width >= iconSize) {
-    return copyResize(
+    return img.copyResize(
       image,
       width: iconSize,
       height: iconSize,
-      interpolation: Interpolation.average,
+      interpolation: img.Interpolation.average,
     );
   } else {
-    return copyResize(
+    return img.copyResize(
       image,
       width: iconSize,
       height: iconSize,
-      interpolation: Interpolation.linear,
+      interpolation: img.Interpolation.linear,
     );
   }
 }
@@ -35,8 +35,8 @@ String generateError(Exception e, String? error) {
 
 // TODO(RatakondalaArun): Remove nullable return type
 // this can never return null value since it already throws exception
-Image? decodeImageFile(String filePath) {
-  final image = decodeImage(File(filePath).readAsBytesSync());
+img.Image? decodeImageFile(String filePath) {
+  final image = img.decodeImage(File(filePath).readAsBytesSync());
   if (image == null) {
     throw NoDecoderForImageFormatException(filePath);
   }
